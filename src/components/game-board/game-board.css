@@ -21,7 +21,7 @@
   color: white;
 }
 .correct-letter-but-wrong-position {
-  background-color: orangered;
+  background-color: #ffa92a;
   color: white;
 }
 .wrong-letter {
