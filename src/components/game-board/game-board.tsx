@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { GameState, useGameProvider } from '../../contexts/game-context';
-import './../styles.css';
+import './../../styles.css';
 import './game-board.css';
 
 function GameBoard(): JSX.Element {

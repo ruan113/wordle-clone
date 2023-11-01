@@ -27,7 +27,7 @@ function DifficultyButton(props: { name: GameDifficulty }): JSX.Element {
         id={props.name.toString()}
         variant="outlined"
         className={`difficulty-button ${
-          gameState.currentDifficulty === props.name ? 'selected' : ''
+          gameState?.currentDifficulty === props.name ? 'selected' : ''
         }`}
         onClick={handleOpen}
         sx={{ margin: '10px', fontSize: '1.3rem' }}
