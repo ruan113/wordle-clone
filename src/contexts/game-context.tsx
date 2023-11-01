@@ -1,3 +1,4 @@
+import { Box, Button, Modal, Typography } from '@mui/material';
 import {
   ReactNode,
   createContext,
@@ -45,11 +46,35 @@ const useGameProvider = (): GameContextData => {
 };
 
 const GameProvider = ({ children }: GameProviderProps): JSX.Element => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [finishedGameMessage, setFinishedGameMessage] = useState<string>('');
+  const openEndGameModal = (): void => setIsModalOpen(true);
+  const closeEndGameModal = (): void => {
+    initializeNewGame(gameState.currentDifficulty);
+    setIsModalOpen(false);
+  };
+
   const [gameState, setGameState] = useState<GameState>(getGameInitialState(5));
 
   useEffect(() => {
     initializeNewGame();
   }, []);
+
+  useEffect(() => {
+    for (const space of gameState.boardSpaces) {
+      if (space.letters.join('') === gameState.currentWord) {
+        setFinishedGameMessage("Congratulations, you've won the gameState!");
+        openEndGameModal();
+      }
+    }
+
+    if (gameState.currentBoardSpaceIndexBeingUsed > 5) {
+      setFinishedGameMessage(
+        `Oh no, you lost the game... the word was ${gameState.currentWord}`,
+      );
+      openEndGameModal();
+    }
+  }, [gameState.currentBoardSpaceIndexBeingUsed]);
 
   const initializeNewGame = (difficulty: GameDifficulty = 5): void => {
     const newState = getGameInitialState(difficulty);
@@ -95,7 +120,13 @@ const GameProvider = ({ children }: GameProviderProps): JSX.Element => {
 
   const submitAttempt = (): void => {
     const newState = { ...gameState };
-    if (newState.currentBoardSpaceIndexBeingUsed + 1 > 6) return;
+    const willExtrapolateIndex =
+      newState.currentBoardSpaceIndexBeingUsed + 1 > 6;
+    const currentAttemptIsEmpty =
+      newState.boardSpaces[
+        newState.currentBoardSpaceIndexBeingUsed
+      ].letters.join('') === '';
+    if (currentAttemptIsEmpty || willExtrapolateIndex) return;
     newState.currentBoardSpaceIndexBeingUsed += 1;
     setGameState(newState);
   };
@@ -112,6 +143,27 @@ const GameProvider = ({ children }: GameProviderProps): JSX.Element => {
       }}
     >
       {children}
+      <Modal
+        open={isModalOpen}
+        onClose={closeEndGameModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <div className="modal-container">
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            {finishedGameMessage}
+          </Typography>
+          <Box sx={{ display: 'flex' }}>
+            <Button
+              variant="outlined"
+              onClick={closeEndGameModal}
+              sx={{ marginTop: '15px' }}
+            >
+              New Game
+            </Button>
+          </Box>
+        </div>
+      </Modal>
     </GameContext.Provider>
   );
 };
@@ -120,7 +172,7 @@ export { GameProvider, useGameProvider };
 
 function getGameInitialState(difficulty: GameDifficulty): GameState {
   return {
-    currentWord: '',
+    currentWord: 'not-initialized-word',
     currentDifficulty: difficulty,
     currentBoardSpaceIndexBeingUsed: 0,
     boardSpaces: Array(6)

@@ -3,20 +3,8 @@ import { useState } from 'react';
 import { GameDifficulty, useGameProvider } from '../../contexts/game-context';
 import './difficulty-button.css';
 
-const modalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
 function DifficultyButton(props: { name: GameDifficulty }): JSX.Element {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const handleOpen = (): void => setOpen(true);
   const handleClose = (): void => setOpen(false);
   const { gameState, changeDifficulty } = useGameProvider();
@@ -40,7 +28,7 @@ function DifficultyButton(props: { name: GameDifficulty }): JSX.Element {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={modalStyle}>
+        <div className="modal-container">
           <Typography id="modal-modal-title" variant="h6" component="h2">
             This will reset the current game.
           </Typography>
@@ -60,7 +48,7 @@ function DifficultyButton(props: { name: GameDifficulty }): JSX.Element {
               Confirm
             </Button>
           </Box>
-        </Box>
+        </div>
       </Modal>
     </>
   );
