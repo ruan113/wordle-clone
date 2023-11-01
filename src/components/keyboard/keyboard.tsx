@@ -1,10 +1,22 @@
 import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
 import { Button } from '@mui/material';
+import { useCallback } from 'react';
 import { useGameProvider } from '../../contexts/game-context';
 import './keyboard.css';
 
 function Keyboard(): JSX.Element {
-  const { addLetter, removeLetter, submitAttempt } = useGameProvider();
+  const { addLetter, removeLetter, submitAttempt, gameState } =
+    useGameProvider();
+
+  const wasLetterAlreadyUsed = useCallback(
+    (letter: string) => {
+      const allLettersUsed = gameState.boardSpaces
+        .map((space) => space.letters)
+        .flat();
+      return allLettersUsed.includes(letter);
+    },
+    [gameState.currentBoardSpaceIndexBeingUsed],
+  );
 
   return (
     <div className="keyboard">
@@ -14,6 +26,7 @@ function Keyboard(): JSX.Element {
             variant="outlined"
             className="btn"
             onClick={(): void => addLetter(letter)}
+            disabled={wasLetterAlreadyUsed(letter)}
           >
             {letter}
           </Button>
@@ -25,6 +38,7 @@ function Keyboard(): JSX.Element {
             variant="outlined"
             className="btn"
             onClick={(): void => addLetter(letter)}
+            disabled={wasLetterAlreadyUsed(letter)}
           >
             {letter}
           </Button>
@@ -39,6 +53,7 @@ function Keyboard(): JSX.Element {
             variant="outlined"
             className="btn"
             onClick={(): void => addLetter(letter)}
+            disabled={wasLetterAlreadyUsed(letter)}
           >
             {letter}
           </Button>
