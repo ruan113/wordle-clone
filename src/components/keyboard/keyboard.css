@@ -9,7 +9,7 @@
   padding: 0.5rem 1rem !important;
   margin: 0.3rem !important;
   font-size: 1.3rem !important;
-  width: 50px !important;
+  min-width: 50px !important;
   height: 50px !important;
   border-radius: 0.5rem !important;
 }
@@ -17,4 +17,9 @@
 .btn:hover {
   background-color: rgb(104, 104, 255) !important;
   color: #fff !important;
+}
+
+.backspace-btn {
+  display: flex !important;
+  justify-content: center !important;
 }

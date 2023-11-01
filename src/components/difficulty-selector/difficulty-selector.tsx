@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
+import DifficultyButton from '../difficulty-button/difficulty-button';
 import './../styles.css';
-import DifficultyButton from './difficulty-button';
 import './difficulty-selector.css';
 
 function DifficultySelector(): JSX.Element {

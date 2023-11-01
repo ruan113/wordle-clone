@@ -1,6 +1,7 @@
 import { Box, Button, Modal, Typography } from '@mui/material';
 import { useState } from 'react';
-import { GameDifficulty, useGameProvider } from '../contexts/word-context';
+import { GameDifficulty, useGameProvider } from '../../contexts/game-context';
+import './difficulty-button.css';
 
 const modalStyle = {
   position: 'absolute',
@@ -16,16 +17,18 @@ const modalStyle = {
 
 function DifficultyButton(props: { name: GameDifficulty }): JSX.Element {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const { changeDifficulty } = useGameProvider();
+  const handleOpen = (): void => setOpen(true);
+  const handleClose = (): void => setOpen(false);
+  const { gameState, changeDifficulty } = useGameProvider();
 
   return (
     <>
       <Button
         id={props.name.toString()}
         variant="outlined"
-        className="difficulty-button"
+        className={`difficulty-button ${
+          gameState.currentDifficulty === props.name ? 'selected' : ''
+        }`}
         onClick={handleOpen}
         sx={{ margin: '10px', fontSize: '1.3rem' }}
       >
@@ -49,7 +52,7 @@ function DifficultyButton(props: { name: GameDifficulty }): JSX.Element {
               color="primary"
               variant="outlined"
               sx={{ marginLeft: '20px' }}
-              onClick={() => {
+              onClick={(): void => {
                 changeDifficulty(props.name);
                 handleClose();
               }}

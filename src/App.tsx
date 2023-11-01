@@ -1,8 +1,8 @@
 import './App.css';
-import DifficultySelector from './components/difficulty-selector';
-import GameBoard from './components/game-board';
-import Keyboard from './components/keyboard';
-import { GameProvider } from './contexts/word-context';
+import DifficultySelector from './components/difficulty-selector/difficulty-selector';
+import GameBoard from './components/game-board/game-board';
+import Keyboard from './components/keyboard/keyboard';
+import { GameProvider } from './contexts/game-context';
 
 function App(): JSX.Element {
   return (
