@@ -84,7 +84,6 @@ const GameProvider = ({ children }: GameProviderProps): JSX.Element => {
     );
     const randomIndex = Math.floor(Math.random() * filteredWords.length);
     newState.currentWord = filteredWords[randomIndex];
-    newState.currentWord = 'fotos';
     setGameState(newState);
   };
 
